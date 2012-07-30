@@ -1,0 +1,14 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Lighthouse</title>
+    @Styles.Render("~/content/css")
+</head>
+<body>
+    @RenderBody()
+    @Scripts.Render("~/scripts/javascript")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

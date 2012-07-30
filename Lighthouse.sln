@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Web Developer Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighthouse.Web", "Lighthouse.Web\Lighthouse.Web.csproj", "{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
