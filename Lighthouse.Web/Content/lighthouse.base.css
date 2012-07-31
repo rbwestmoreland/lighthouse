@@ -1,4 +1,11 @@
-﻿.quick-links
+﻿/***header***/
+.navbar .brand
+{
+    color: #fff;
+}
+
+/***footer***/
+.quick-links
 {
     list-style: none outside none;
     margin: 0;
