@@ -37,7 +37,7 @@ namespace Lighthouse.Web.Controllers
 
         public ActionResult Begin()
         {
-            var url = string.Format("https://appharbor.com/user/authorizations/new?client_id={0}&redirect_uri={1}", ClientId, HttpUtility.UrlEncode(CallbackUrl));
+            var url = string.Format("https://appharbor.com/user/authorizations/new?client_id={0}&redirect_uri={1}", ClientId, CallbackUrl);
             return Redirect(url);
         }
 
@@ -59,19 +59,21 @@ namespace Lighthouse.Web.Controllers
 
         private bool TryGetAccessToken(string code, out string accessToken)
         {
-            var success = false;
-
-            var url = string.Format("https://appharbor.com/tokens?client_id={0}&client_secret={1}&code={2}", ClientId, ClientSecretKey, HttpUtility.UrlEncode(code));
+            var nvc = new Dictionary<string, string>();
+            nvc.Add("client_id", ClientId);
+            nvc.Add("client_secret", ClientSecretKey);
+            nvc.Add("code", code);
+            var content = new FormUrlEncodedContent(nvc);
 
             using (var httpClient = new HttpClient())
             {
-                var response = httpClient.PostAsync(url, null).Result;
+                var response = httpClient.PostAsync("https://appharbor.com/tokens", content).Result;
                 var responseBody = response.Content.ReadAsStringAsync().Result;
                 var tokenData = HttpUtility.ParseQueryString(responseBody);
                 accessToken = tokenData["access_token"];
             }
 
-            return success;
+            return !string.IsNullOrWhiteSpace(accessToken);
         }
     }
 }
