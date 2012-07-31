@@ -2,12 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lighthouse - An AppHarbor build monitor">
+    <meta name="author" content="Bates Westmoreland">
     <title>Lighthouse</title>
     @Styles.Render("~/content/css")
 </head>
 <body>
+    @Html.Partial("Header")
+    <div class="container">
     @RenderBody()
+    @Html.Partial("Footer")
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     @Scripts.Render("~/scripts/javascript")
     @RenderSection("scripts", required: false)
 </body>
