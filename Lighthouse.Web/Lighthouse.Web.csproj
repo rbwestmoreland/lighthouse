@@ -126,6 +126,7 @@
     <Compile Include="App_Start\IoCConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\DependencyResolvers\TinyIocDependencyResolver.cs" />
     <Compile Include="Controllers\Factories\TinyIocControllerFactory.cs" />
     <Compile Include="Controllers\HomeController.cs" />

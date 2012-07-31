@@ -8,12 +8,10 @@ namespace Lighthouse.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+            routes.MapRoute(
+                name: "OAuth",
+                url: "oauth/v2/{action}",
+                defaults: new { controller = "OAuth", action = "Begin" }
             );
 
             routes.MapRoute(
