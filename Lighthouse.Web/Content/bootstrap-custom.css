@@ -2,3 +2,14 @@
 {
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
+
+.icon-lighthouse
+{
+    background-position: 0px 0px;
+    background-image: url("images/lighthouse/lighthouse-black-14x14.png");
+}
+
+.icon-lighthouse.icon-white
+{
+    background-image: url("images/lighthouse/lighthouse-white-14x14.png");
+}
