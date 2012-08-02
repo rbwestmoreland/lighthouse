@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Newtonsoft.Json;
 
 namespace Lighthouse.Web.Controllers
 {
-    public class OAuthController : Controller
+    public class OAuthController : BaseController
     {
         private string ClientId { get; set; }
         private string ClientSecretKey { get; set; }
@@ -47,14 +49,20 @@ namespace Lighthouse.Web.Controllers
 
             if (TryGetAccessToken(code, out accessToken))
             {
-                //todo
+                var username = GetAppHarborUsername(accessToken);
+                AppendCookieToResponse(accessToken, username);
+                return RedirectToRoute("Dashboard");
             }
             else
             {
-                //todo
+                return RedirectToRoute("Home");
             }
+        }
 
-            return RedirectToAction("", "");
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToRoute("Home");
         }
 
         private bool TryGetAccessToken(string code, out string accessToken)
@@ -74,6 +82,31 @@ namespace Lighthouse.Web.Controllers
             }
 
             return !string.IsNullOrWhiteSpace(accessToken);
+        }
+
+        private string GetAppHarborUsername(string accessToken)
+        {
+            var username = string.Empty;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("BEARER", accessToken);
+                var response = httpClient.GetAsync("https://appharbor.com/user").Result;
+                var responseBody = response.Content.ReadAsStringAsync().Result;
+                var json = JsonConvert.DeserializeObject(responseBody) as dynamic;
+                username = json.username.Value.ToString();
+            }
+
+            return username;
+        }
+
+        private void AppendCookieToResponse(string accessToken, string username)
+        {
+            var ticket = new FormsAuthenticationTicket(1, username, DateTime.UtcNow, DateTime.MaxValue, true, accessToken);
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            Response.AppendCookie(cookie);
         }
     }
 }

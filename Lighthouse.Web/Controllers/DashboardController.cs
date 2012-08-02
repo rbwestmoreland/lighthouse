@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace Lighthouse.Web.Controllers
 {
-    public class HomeController : BaseController
+    [Authorize]
+    public class DashboardController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Default()
         {
             return View();
         }

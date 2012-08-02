@@ -15,6 +15,18 @@ namespace Lighthouse.Web
             );
 
             routes.MapRoute(
+                name: "Dashboard",
+                url: "dashboard",
+                defaults: new { controller = "Dashboard", action = "Default" }
+            );
+
+            routes.MapRoute(
+                name: "Home",
+                url: "",
+                defaults: new { controller = "Home", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

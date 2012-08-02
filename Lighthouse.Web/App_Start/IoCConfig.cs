@@ -23,8 +23,10 @@ namespace Lighthouse.Web
             container.Register<System.Web.Http.Dependencies.IDependencyResolver, TinyIocDependencyResolver>();
 
             //Mvc Controllers
+            container.Register<IController, BaseController>().AsMultiInstance();
             container.Register<IController>((c, p) => new OAuthController(clientId, clientSecretKey, callbackUrl), "OAuth");
             container.Register<IController, HomeController>("Home").AsMultiInstance();
+            container.Register<IController, DashboardController>("Dashboard").AsMultiInstance();
 
             //WebApi Controllers
             //container.Register<ValuesController>().AsMultiInstance();
