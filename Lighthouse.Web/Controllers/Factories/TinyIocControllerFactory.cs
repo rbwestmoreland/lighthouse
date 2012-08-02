@@ -22,6 +22,10 @@ namespace Lighthouse.Controllers.Factories
         {
             IController resolvedType = null;
             Container.TryResolve<IController>(controllerName, out resolvedType);
+            if (resolvedType == null)
+            {
+                Container.TryResolve<IController>(out resolvedType);
+            }
             return resolvedType;
         }
 
