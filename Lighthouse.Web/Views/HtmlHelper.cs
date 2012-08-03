@@ -8,18 +8,35 @@ namespace System.Web.Mvc
 {
     public static class HtmlHelpers
     {
-        public static string GetStatusLabelClass(this HtmlHelper helper, string status)
+        public static string GetButtonClass(this HtmlHelper helper, string status)
         {
             switch (status.ToLower())
             {
                 case "succeeded":
-                    return "label-success";
+                    return "btn-success";
                 case "queued":
-                    return "label-warning";
+                    return "btn-warning";
                 case "building":
-                    return "label-info";
+                    return "btn-info";
                 case "failed":
-                    return "label-important";
+                    return "btn-danger";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        public static string GetIconClass(this HtmlHelper helper, string status)
+        {
+            switch (status.ToLower())
+            {
+                case "succeeded":
+                    return "icon-ok-sign";
+                case "queued":
+                    return "icon-info-sign";
+                case "building":
+                    return "icon-question-sign";
+                case "failed":
+                    return "icon-remove-sign";
                 default:
                     return string.Empty;
             }
