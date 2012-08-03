@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Lighthouse.Web.Controllers
 {
@@ -16,6 +17,21 @@ namespace Lighthouse.Web.Controllers
             {
                 Response.Redirect(Request.Path);
             }
+        }
+
+        protected string GetUserAppHarborAccessToken()
+        {
+            var accessToken = string.Empty;
+
+            try
+            {
+                var httpCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                var decryptedCookie = FormsAuthentication.Decrypt(httpCookie.Value);
+                accessToken = decryptedCookie.UserData;
+            }
+            catch { }
+
+            return accessToken;
         }
     }
 }

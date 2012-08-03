@@ -1,5 +1,17 @@
-﻿<div class="row">
-    <div class="span12">
-        <h1>Dashboard</h1>
+﻿@model Lighthouse.Web.Models.Dashboard.Dashboard
+<div class="row">      
+@foreach (var application in Model.Applications)
+{
+    <div class="span2 well">
+        <h3>@application.Name</h3>
+        @if (application.Builds.Any())
+        {
+            <span class="label @Html.GetStatusLabelClass(application.Builds.First().Status)">@application.Builds.First().Status</span>
+        }
+        else
+        {
+            <span class="label">No Builds</span>
+        }
     </div>
+}
 </div>
