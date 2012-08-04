@@ -12,15 +12,40 @@ namespace Lighthouse.Web.Models.Dashboard
         public string Url { get; set; }
         public IEnumerable<Build> Builds { get; set; }
 
-        public string GetCurrentStatus()
+        public IEnumerable<Build> GetQueuedBuilds()
         {
-            if (Builds != null && Builds.Any())
+            if (Builds.IsNotNullOrEmpty())
             {
-                return Builds.First().Status.ToLower();
+                return Builds.Where(b => b.Status.Equals("queued", StringComparison.OrdinalIgnoreCase));
             }
             else
             {
-                return "no builds";
+                return new List<Build>();
+            }
+        }
+
+        public IEnumerable<Build> GetBuildingBuilds()
+        {
+            if (Builds.IsNotNullOrEmpty())
+            {
+                return Builds.Where(b => b.Status.Equals("building", StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                return new List<Build>();
+            }
+        }
+
+        public IEnumerable<Build> GetCompletedBuilds()
+        {
+            if (Builds.IsNotNullOrEmpty())
+            {
+                return Builds.Where(b => b.Status.Equals("succeeded", StringComparison.OrdinalIgnoreCase) ||
+                    b.Status.Equals("failed", StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                return new List<Build>();
             }
         }
 
@@ -28,7 +53,7 @@ namespace Lighthouse.Web.Models.Dashboard
         {
             var averageBuildTime = TimeSpan.Zero;
 
-            if (Builds != null && Builds.Any())
+            if (Builds.IsNotNullOrEmpty())
             {
                 var completedBuilds = Builds.Where(b => b.Created.HasValue && b.Deployed.HasValue);
                 if (completedBuilds.Any())
