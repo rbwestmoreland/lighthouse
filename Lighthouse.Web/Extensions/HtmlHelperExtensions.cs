@@ -38,7 +38,7 @@ namespace System.Web.Mvc
                 case "failed":
                     return "icon-remove-sign";
                 default:
-                    return "icon-question-sign";
+                    return string.Empty;
             }
         }
     }
