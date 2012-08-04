@@ -3,25 +3,49 @@
 
     <div class="span4">
         <div class="page-header">
-            <h1>Current Builds</h1>
+            <h1>Queued</h1>
         </div>
         @{ 
-            var buildingApplications = Model.Applications.Where(a => a.Builds.Any(b => b.Status.Equals("building", StringComparison.OrdinalIgnoreCase))); 
-            if (buildingApplications.Any())
+            foreach (var application in Model.Applications)
             {
-                foreach (var application in buildingApplications)
+                foreach (var build in application.GetQueuedBuilds())
                 {
-                    var averageBuildTime = application.AverageBuildTime();
-                    var percentComplete = application.Builds.First().PercentComplete(averageBuildTime);
-                    <h3>@application.Name</h3>
+                    var commitIdFull = build.CommitId;
+                    var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
+                    var commitMessage = build.CommitMessage;
+                    <h3>@application.Name <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small></h3>
+                }
+            }
+            
+            if(!Model.Applications.Any(a => a.GetQueuedBuilds().Any()))
+            {
+                <h3><small>none</small></h3>
+            }
+        }
+
+        <div class="page-header">
+            <h1>Building</h1>
+        </div>
+        @{ 
+            foreach (var application in Model.Applications)
+            {
+                var averageBuildTime = application.AverageBuildTime();
+                foreach (var build in application.GetBuildingBuilds())
+                {
+                    var percentComplete = build.PercentComplete(averageBuildTime);
+                    var commitIdFull = build.CommitId;
+                    var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
+                    var commitMessage = build.CommitMessage;
+                    <h3>@application.Name <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small></h3>
                     <div class="progress progress-striped active">
-                      <div class="bar" style="width: @percentComplete%;"></div>
+                        <div class="bar" style="width: @percentComplete%;"></div>
                     </div>
                 }
             }
-            else
+            
+            if(!Model.Applications.Any(a => a.GetBuildingBuilds().Any()))
             {
-                <h3>none</h3>
+                <h3><small>none</small></h3>
             }
         }
     </div>
@@ -33,36 +57,46 @@
         <div class="row">
             @foreach (var application in Model.Applications)
             {
+                var completedBuilds = application.GetCompletedBuilds();
                 <div class="span4">
-                    <h3>@application.Name
-                    @if (application.Builds != null && application.Builds.Any())
-                    {
-                        <small title="@application.Builds.First().CommitId">@application.Builds.First().CommitId.SafeSubString(0, 7)...</small>
-                    }
-                    </h3>
-                    <p>
-                        <div class="btn-group">
-                            <a class="btn btn-mini @Html.GetButtonClass(application.GetCurrentStatus()) dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-white @Html.GetIconClass(application.GetCurrentStatus())"></i> @application.GetCurrentStatus()
-                            <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="@application.Url" target="_blank"><i class="icon-share-alt"></i> View Application on AppHarbor</a></li>
-                                @if (application.Builds != null && application.Builds.Any())
-                                {
-                                    <li class="divider"></li>
-                                    <li><a href="@application.Builds.First().Url" target="_blank"><i class="icon-share-alt"></i> View Build on AppHarbor</a></li>
-                                    <li><a href="@application.Builds.First().TestsUrl" target="_blank"><i class="icon-list-alt"></i> View Tests on AppHarbor</a></li>
-                                    <li><a href="@application.Builds.First().DownloadUrl" target="_blank"><i class="icon-download"></i> Download from AppHarbor</a></li>
-                                }
-                            </ul>
-                        </div>
-                        <br />
-                        @if (application.Builds != null && application.Builds.Any())
+                    <div class="well">
+                        <h3>@application.Name
+                        @if (completedBuilds.Any())
                         {
-                            <blockquote>@application.Builds.First().CommitMessage</blockquote>
+                            var build = completedBuilds.First();
+                            var commitIdFull = build.CommitId;
+                            var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
+                            var commitMessage = build.CommitMessage;
+                            <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small>
                         }
-                    </p>
+                        </h3>
+                        <p>
+                            @if (completedBuilds.Any())
+                            {
+                                var build = completedBuilds.First();
+                                <div class="btn-group">
+                                    <a class="btn btn-mini @Html.GetButtonClass(build.Status) dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="icon-white @Html.GetIconClass(build.Status)"></i> @build.Status <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="@application.Url" target="_blank"><i class="icon-share-alt"></i> View Application on AppHarbor</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@build.Url" target="_blank"><i class="icon-share-alt"></i> View Build on AppHarbor</a></li>
+                                        <li><a href="@build.TestsUrl" target="_blank"><i class="icon-list-alt"></i> View Tests on AppHarbor</a></li>
+                                        <li><a href="@build.DownloadUrl" target="_blank"><i class="icon-download"></i> Download from AppHarbor</a></li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="btn-group">
+                                    <a class="btn btn-mini disabled dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="icon-question-sign"></i> no builds <span class="caret"></span>
+                                    </a>
+                                </div>
+                            }
+                        </p>
+                    </div>
                 </div>
             }
         </div>
