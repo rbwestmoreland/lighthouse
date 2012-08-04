@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace System.Web.Mvc
 {
-    public static class HtmlHelpers
+    public static class HtmlHelperExtensions
     {
         public static string GetButtonClass(this HtmlHelper helper, string status)
         {
