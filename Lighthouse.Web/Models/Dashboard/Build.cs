@@ -15,5 +15,32 @@ namespace Lighthouse.Web.Models.Dashboard
         public string DownloadUrl { get; set; }
         public string TestsUrl { get; set; }
         public string Url { get; set; }
+
+        public TimeSpan TimeRemaining(TimeSpan averageBuildTime)
+        {
+            var timeRemaining = TimeSpan.Zero;
+
+            if (Created.HasValue && !Deployed.HasValue)
+            {
+                var timeCompleted = DateTime.UtcNow - Created.Value;
+                timeRemaining = averageBuildTime - timeCompleted;
+            }
+
+            return timeRemaining;
+        }
+
+        public int PercentComplete(TimeSpan averageBuildTime)
+        {
+            var percentComplete = 100;
+
+            if (Created.HasValue && !Deployed.HasValue)
+            {
+                var timeCompleted = DateTime.UtcNow - Created.Value;
+                var absolutePercentComplete = (timeCompleted.TotalSeconds / averageBuildTime.TotalSeconds) * 100;
+                percentComplete = (int)Math.Round(absolutePercentComplete, MidpointRounding.AwayFromZero);
+            }
+
+            return percentComplete;
+        }
     }
 }
