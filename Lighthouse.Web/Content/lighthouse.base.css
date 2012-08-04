@@ -4,6 +4,12 @@
     color: #fff;
 }
 
+.navbar .brand [class^="icon-"],
+.navbar .brand [class*=" icon-"]
+{
+    margin-top: 5px;
+}
+
 /***footer***/
 .quick-links
 {
