@@ -1,40 +1,71 @@
 ﻿@model Lighthouse.Web.Models.Dashboard.Dashboard
-<div class="row">      
-@foreach (var application in Model.Applications)
-{
+<div class="row">
+
     <div class="span4">
-        <h3>@application.Name</h3>
-        @if (application.Builds.Any())
-        {
-            var build = application.Builds.First();
-            <div class="btn-group">
-              <a class="btn btn-mini @Html.GetButtonClass(build.Status) dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="icon icon-white @Html.GetIconClass(build.Status)"></i> @build.Status <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="@build.Url" target="_blank"><i class="icon icon-share-alt"></i> View on AppHarbor</a></li>
-                <li><a href="@build.TestsUrl" target="_blank"><i class="icon-list-alt"></i> View Tests</a></li>
-                <li><a href="@build.DownloadUrl" target="_blank"><i class="icon icon-download"></i> Download</a></li>
-              </ul>
-            </div>
-            <ul class="unstyled">
-                <li><i class="icon icon-time"></i> <b>Started</b> @build.Created</li>
-                <li><i class="icon icon-time"></i> <b>Completed</b> @if (build.Deployed.HasValue){ @build.Deployed.Value } else { <text>-</text> }</li>
-                <li><i class="icon icon-tag"></i> <b>Id</b> @if (build.CommitId.Length > 7){ @build.CommitId.Substring(0, 7)<text>...</text> } else { @build.CommitId }</li>
-                <li><i class="icon icon-comment"></i> @build.CommitMessage</li>
-            </ul>
-            
-        }
-        else
-        {
-            <a class="btn btn-mini disabled" href="#">No Builds <span class="caret"></span></a>
-            <ul class="unstyled">
-                <li><i class="icon icon-time"></i> <b>Started</b> -</li>
-                <li><i class="icon icon-time"></i> <b>Completed</b> -</li>
-                <li><i class="icon icon-tag"></i> <b>Id</b> -</li>
-                <li><i class="icon icon-comment"></i> -</li>
-            </ul>
+        <div class="page-header">
+            <h1>Current Builds</h1>
+        </div>
+        @{ 
+            var buildingApplications = Model.Applications.Where(a => a.Builds.Any(b => b.Status.Equals("building", StringComparison.OrdinalIgnoreCase))); 
+            if (buildingApplications.Any())
+            {
+                foreach (var application in buildingApplications)
+                {
+                    var averageBuildTime = application.AverageBuildTime();
+                    var percentComplete = application.Builds.First().PercentComplete(averageBuildTime);
+                    <h3>@application.Name</h3>
+                    <div class="progress progress-striped active">
+                      <div class="bar" style="width: @percentComplete%;"></div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h3>none</h3>
+            }
         }
     </div>
-}
+
+    <div class="span8">
+        <div class="page-header">
+            <h1>Applications</h1>
+        </div>
+        <div class="row">
+            @foreach (var application in Model.Applications)
+            {
+                <div class="span4">
+                    <h3>@application.Name
+                    @if (application.Builds != null && application.Builds.Any())
+                    {
+                        <small title="@application.Builds.First().CommitId">@application.Builds.First().CommitId.SafeSubString(0, 7)...</small>
+                    }
+                    </h3>
+                    <p>
+                        <div class="btn-group">
+                            <a class="btn btn-mini @Html.GetButtonClass(application.GetCurrentStatus()) dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-white @Html.GetIconClass(application.GetCurrentStatus())"></i> @application.GetCurrentStatus()
+                            <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@application.Url" target="_blank"><i class="icon-share-alt"></i> View Application on AppHarbor</a></li>
+                                @if (application.Builds != null && application.Builds.Any())
+                                {
+                                    <li class="divider"></li>
+                                    <li><a href="@application.Builds.First().Url" target="_blank"><i class="icon-share-alt"></i> View Build on AppHarbor</a></li>
+                                    <li><a href="@application.Builds.First().TestsUrl" target="_blank"><i class="icon-list-alt"></i> View Tests on AppHarbor</a></li>
+                                    <li><a href="@application.Builds.First().DownloadUrl" target="_blank"><i class="icon-download"></i> Download from AppHarbor</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <br />
+                        @if (application.Builds != null && application.Builds.Any())
+                        {
+                            <blockquote>@application.Builds.First().CommitMessage</blockquote>
+                        }
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+
 </div>
