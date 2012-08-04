@@ -16,6 +16,7 @@ namespace Lighthouse.Web
 
             var javascriptBundle = new Bundle("~/scripts/javascript", new JsMinify());
             javascriptBundle.Include("~/scripts/bootstrap.min.js");
+            javascriptBundle.Include("~/scripts/lighthouse.js");
             bundles.Add(javascriptBundle);
 
             BundleTable.EnableOptimizations = true;
