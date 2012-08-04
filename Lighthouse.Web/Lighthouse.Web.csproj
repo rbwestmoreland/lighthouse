@@ -152,6 +152,15 @@
     <Content Include="Content\bootstrap-custom.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-black-14x14.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-black-16x16.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-black-512x512.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-black.svg" />
+    <Content Include="Content\images\lighthouse\lighthouse-white-14x14.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-white-16x16.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-white-512x512.png" />
+    <Content Include="Content\images\lighthouse\lighthouse-white.svg" />
+    <Content Include="Content\images\lighthouse\noun_project_679.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
