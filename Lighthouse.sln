@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Web Developer Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighthouse.Web", "Lighthouse.Web\Lighthouse.Web.csproj", "{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Lighthouse.Web", "Test.Lighthouse.Web\Test.Lighthouse.Web.csproj", "{C730C56F-56D8-434F-9E5C-53EC2E904BF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{633D80F0-A1D2-4BA1-A6D7-64E6459DC1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C730C56F-56D8-434F-9E5C-53EC2E904BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C730C56F-56D8-434F-9E5C-53EC2E904BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C730C56F-56D8-434F-9E5C-53EC2E904BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C730C56F-56D8-434F-9E5C-53EC2E904BF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
