@@ -67,7 +67,7 @@
                             var commitIdFull = build.CommitId;
                             var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
                             var commitMessage = build.CommitMessage;
-                            <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small>
+                            <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)" data-placement="top"><i class="icon-comment"></i> @commitIdShort</small>
                         }
                         </h3>
                         <p>
@@ -83,14 +83,17 @@
                                         <li class="divider"></li>
                                         <li><a href="@build.Url" target="_blank"><i class="icon-share-alt"></i> View Build on AppHarbor</a></li>
                                         <li><a href="@build.TestsUrl" target="_blank"><i class="icon-list-alt"></i> View Tests on AppHarbor</a></li>
+                                        @if (build.IsSuccessful())
+                                        {
                                         <li><a href="@build.DownloadUrl" target="_blank"><i class="icon-download"></i> Download from AppHarbor</a></li>
+                                        }
                                     </ul>
                                 </div>
                             }
                             else
                             {
                                 <div class="btn-group">
-                                    <a class="btn btn-mini disabled dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <a class="btn btn-mini disabled dropdown-toggle" data-toggle="dropdown">
                                         <i class="icon-question-sign"></i> no builds <span class="caret"></span>
                                     </a>
                                 </div>
