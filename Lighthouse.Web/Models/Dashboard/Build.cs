@@ -42,5 +42,10 @@ namespace Lighthouse.Web.Models.Dashboard
 
             return percentComplete;
         }
+
+        public bool IsSuccessful()
+        {
+            return Status.Equals("succeeded", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
