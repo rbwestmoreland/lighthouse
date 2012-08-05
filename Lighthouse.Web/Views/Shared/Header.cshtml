@@ -6,7 +6,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#"><i class="icon-lighthouse icon-white"></i> Lighthouse</a>
+        @{
+            var brandUrl = User.Identity.IsAuthenticated ? Url.RouteUrl("Dashboard") : Url.RouteUrl("Home");
+        }
+        <a class="brand" href="@brandUrl"><i class="icon-lighthouse icon-white"></i> Lighthouse</a>
         <div class="nav-collapse">
         <ul class="nav pull-right">
             <li class="divider-vertical"></li>
