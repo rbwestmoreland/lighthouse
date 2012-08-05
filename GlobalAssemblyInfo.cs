@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Lighthouse")]
-[assembly: AssemblyCopyright("Copyright © Bates Westmoreland 2012")]
+[assembly: AssemblyCopyright("Copyright © 2012 Bates Westmoreland")]
 [assembly: AssemblyTrademark("")]
 
 [assembly: ComVisible(false)]
