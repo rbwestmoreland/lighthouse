@@ -12,6 +12,11 @@ namespace Lighthouse.Web.Models.Dashboard
         public string Url { get; set; }
         public IEnumerable<Build> Builds { get; set; }
 
+        public Application()
+        {
+            Builds = new List<Build>();
+        }
+
         public IEnumerable<Build> GetQueuedBuilds()
         {
             if (Builds.IsNotNullOrEmpty())
