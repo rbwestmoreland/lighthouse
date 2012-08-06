@@ -8,9 +8,9 @@ namespace System.Collections.Generic
 {
     public static class IEnumerableExtensions
     {
-        public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> enumerable)
+        public static bool IsNotNullAndNotEmpty<T>(this IEnumerable<T> enumerable)
         {
-            return enumerable != null || enumerable.Any();
+            return enumerable != null && enumerable.Any();
         }
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
