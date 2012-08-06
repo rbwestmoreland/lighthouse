@@ -326,18 +326,50 @@ namespace Test.Lighthouse.Web.Models.Dashboard
             }
 
             [Fact]
-            public void WhenHas1Builds_ShouldReturnTheTimeSpanBetweenCreatedAndDeployed()
+            public void WhenHas1Builds_ShouldReturnTheAverageBuildTime()
             {
-                var build1Created = DateTime.UtcNow.AddSeconds(-30);
-                var build1Deployed = DateTime.UtcNow;
-                var expected = build1Deployed - build1Created;
+                var utcNow = DateTime.UtcNow;
+                var build1 = new Build()
+                {
+                    Created = utcNow.AddMinutes(-3).AddSeconds(-34),
+                    Deployed = utcNow,
+                };
 
                 var builds = new List<Build>();
-                builds.Add(new Build()
+                builds.Add(build1);
+
+                var expected = build1.Deployed.Value - build1.Created.Value;
+
+                var application = new Application();
+                application.Builds = builds;
+
+                var actual = application.AverageBuildTime();
+
+                Assert.Equal(expected, actual);
+            }
+
+            [Fact]
+            public void WhenHas2Builds_ShouldReturnTheAverageBuildTime()
+            {
+                var utcNow = DateTime.UtcNow;
+                var build1 = new Build()
                 {
-                    Created = build1Created,
-                    Deployed = build1Deployed,
-                });
+                    Created = utcNow.AddMinutes(-3).AddSeconds(-34),
+                    Deployed = utcNow,
+                };
+                var build2 = new Build()
+                {
+                    Created = utcNow.AddMinutes(-1),
+                    Deployed = utcNow,
+                };
+
+                var builds = new List<Build>();
+                builds.Add(build1);
+                builds.Add(build2);
+
+                var totalSeconds = builds.Average(b => (b.Deployed.Value - b.Created.Value).TotalSeconds);
+                var totalSecondsRounded = (int)Math.Round(totalSeconds, MidpointRounding.AwayFromZero);
+                var expected = new TimeSpan(0, 0, totalSecondsRounded);
 
                 var application = new Application();
                 application.Builds = builds;
