@@ -36,7 +36,7 @@
                 var averageBuildTime = application.AverageBuildTime();
                 foreach (var build in application.GetBuildingBuilds())
                 {
-                    var percentComplete = build.PercentComplete(averageBuildTime);
+                    var percentComplete = build.PercentComplete(averageBuildTime, DateTime.UtcNow);
                     var commitIdFull = build.CommitId;
                     var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
                     var commitMessage = build.CommitMessage;

@@ -16,36 +16,66 @@ namespace Lighthouse.Web.Models.Dashboard
         public string TestsUrl { get; set; }
         public string Url { get; set; }
 
-        public TimeSpan TimeRemaining(TimeSpan averageBuildTime)
+        public TimeSpan TimeRemaining(TimeSpan averageBuildTime, DateTime utcNow)
         {
-            var timeRemaining = TimeSpan.Zero;
-
-            if (Created.HasValue && !Deployed.HasValue)
+            if (!Created.HasValue)
             {
-                var timeCompleted = DateTime.UtcNow - Created.Value;
-                timeRemaining = averageBuildTime - timeCompleted;
+                return TimeSpan.Zero;
             }
+
+            if (Deployed.HasValue)
+            {
+                return TimeSpan.Zero;
+            }
+
+            if (averageBuildTime <= TimeSpan.Zero)
+            {
+                return TimeSpan.Zero;
+            }
+
+            if (utcNow < Created.Value)
+            {
+                return TimeSpan.Zero;
+            }
+
+            var timeCompleted = utcNow - Created.Value;
+            var timeRemaining = averageBuildTime - timeCompleted;
 
             return timeRemaining;
         }
 
-        public int PercentComplete(TimeSpan averageBuildTime)
+        public int PercentComplete(TimeSpan averageBuildTime, DateTime utcNow)
         {
-            var percentComplete = 100;
-
-            if (Created.HasValue && !Deployed.HasValue)
+            if (!Created.HasValue)
             {
-                var timeCompleted = DateTime.UtcNow - Created.Value;
-                var absolutePercentComplete = (timeCompleted.TotalSeconds / averageBuildTime.TotalSeconds) * 100;
-                percentComplete = (int)Math.Round(absolutePercentComplete, MidpointRounding.AwayFromZero);
+                return 0;
             }
+
+            if (Deployed.HasValue)
+            {
+                return 100;
+            }
+
+            if (averageBuildTime <= TimeSpan.Zero)
+            {
+                return 100;
+            }
+
+            if (utcNow < Created.Value)
+            {
+                return 0;
+            }
+
+            var timeCompleted = utcNow - Created.Value;
+            var absolutePercentComplete = (timeCompleted.TotalSeconds / averageBuildTime.TotalSeconds) * 100;
+            var percentComplete = (int)Math.Round(absolutePercentComplete, MidpointRounding.AwayFromZero);
 
             return percentComplete;
         }
 
         public bool IsSuccessful()
         {
-            return Status.Equals("succeeded", StringComparison.OrdinalIgnoreCase);
+            return Status != null && Status.Equals("succeeded", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
