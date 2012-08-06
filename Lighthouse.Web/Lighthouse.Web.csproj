@@ -162,6 +162,9 @@
     <Content Include="Content\images\lighthouse\lighthouse-white-512x512.png" />
     <Content Include="Content\images\lighthouse\lighthouse-white.svg" />
     <Content Include="Content\images\lighthouse\noun_project_679.svg" />
+    <Content Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
