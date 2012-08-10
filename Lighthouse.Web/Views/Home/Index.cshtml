@@ -7,7 +7,14 @@
           <h1>Lighthouse</h1>
           <p>An AppHarbor build dashboard</p>
           <p>
-            <a href="#" class="btn btn-primary btn-large"><i class="icon-book icon-white"></i> Learn More</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="@Url.RouteUrl("Dashboard")" class="btn btn-primary btn-large"><i class="icon-lighthouse icon-white"></i> Dashboard</a>
+            }
+            else
+            {
+                <a href="/oauth/v2/begin" class="btn btn-primary btn-large"><i class="icon-user icon-white"></i> Authenticate with AppHarbor</a>
+            }
           </p>
         </div>
     </div>
