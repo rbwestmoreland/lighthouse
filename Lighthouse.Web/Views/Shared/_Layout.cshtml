@@ -18,5 +18,18 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     @Scripts.Render("~/scripts/javascript")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        var _gauges = _gauges || [];
+        (function () {
+            var t = document.createElement('script');
+            t.type = 'text/javascript';
+            t.async = true;
+            t.id = 'gauges-tracker';
+            t.setAttribute('data-site-id', '50245428613f5d778c000012');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+        })();
+    </script>
 </body>
 </html>
