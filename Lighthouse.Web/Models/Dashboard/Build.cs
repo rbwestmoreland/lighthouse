@@ -16,63 +16,6 @@ namespace Lighthouse.Web.Models.Dashboard
         public string TestsUrl { get; set; }
         public string Url { get; set; }
 
-        public TimeSpan TimeRemaining(TimeSpan averageBuildTime, DateTime utcNow)
-        {
-            if (!Created.HasValue)
-            {
-                return TimeSpan.Zero;
-            }
-
-            if (Deployed.HasValue)
-            {
-                return TimeSpan.Zero;
-            }
-
-            if (averageBuildTime <= TimeSpan.Zero)
-            {
-                return TimeSpan.Zero;
-            }
-
-            if (utcNow < Created.Value)
-            {
-                return TimeSpan.Zero;
-            }
-
-            var timeCompleted = utcNow - Created.Value;
-            var timeRemaining = averageBuildTime - timeCompleted;
-
-            return timeRemaining;
-        }
-
-        public int PercentComplete(TimeSpan averageBuildTime, DateTime utcNow)
-        {
-            if (!Created.HasValue)
-            {
-                return 0;
-            }
-
-            if (Deployed.HasValue)
-            {
-                return 100;
-            }
-
-            if (averageBuildTime <= TimeSpan.Zero)
-            {
-                return 100;
-            }
-
-            if (utcNow < Created.Value)
-            {
-                return 0;
-            }
-
-            var timeCompleted = utcNow - Created.Value;
-            var absolutePercentComplete = (timeCompleted.TotalSeconds / averageBuildTime.TotalSeconds) * 100;
-            var percentComplete = (int)Math.Round(absolutePercentComplete, MidpointRounding.AwayFromZero);
-
-            return percentComplete;
-        }
-
         public bool IsSuccessful()
         {
             return Status != null && Status.Equals("succeeded", StringComparison.OrdinalIgnoreCase);

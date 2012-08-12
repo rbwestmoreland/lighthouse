@@ -30,22 +30,19 @@
     @{ 
         foreach (var application in Model.Applications)
         {
-            var averageBuildTime = application.AverageBuildTime();
             foreach (var build in application.GetBuildingBuilds())
             {
-                var percentComplete = build.PercentComplete(averageBuildTime, DateTime.UtcNow);
                 var commitIdFull = build.CommitId;
                 var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
                 var commitMessage = build.CommitMessage;
                 <h3>@application.Name <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small></h3>
-                <small>@build.TimeRemaining(averageBuildTime, DateTime.UtcNow).ToString(@"hh\:mm\:ss") remaining</small>
                 <div class="progress progress-striped active">
-                    <div class="bar" style="width: @percentComplete%;"></div>
+                    <div class="bar" style="width: 100%;"></div>
                 </div>
             }
         }
-            
-        if(!Model.Applications.Any(a => a.GetBuildingBuilds().Any()))
+
+        if (!Model.Applications.Any(a => a.GetBuildingBuilds().Any()))
         {
             <h3><small>none</small></h3>
         }

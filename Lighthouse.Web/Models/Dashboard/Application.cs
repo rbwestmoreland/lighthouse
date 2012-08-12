@@ -53,23 +53,5 @@ namespace Lighthouse.Web.Models.Dashboard
                 return new List<Build>();
             }
         }
-
-        public TimeSpan AverageBuildTime()
-        {
-            var averageBuildTime = TimeSpan.Zero;
-
-            if (Builds.IsNotNullAndNotEmpty())
-            {
-                var completedBuilds = Builds.Where(b => b.Created.HasValue && b.Deployed.HasValue);
-                if (completedBuilds.Any())
-                {
-                    var averageBuildSeconds = completedBuilds.Average(b => (b.Deployed.Value - b.Created.Value).TotalSeconds);
-                    var roundedUpAverageBuildSeconds = (int)Math.Round(averageBuildSeconds, MidpointRounding.AwayFromZero);
-                    averageBuildTime = new TimeSpan(0, 0, roundedUpAverageBuildSeconds);
-                }
-            }
-
-            return averageBuildTime;
-        }
     }
 }
