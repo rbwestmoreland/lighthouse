@@ -38,7 +38,7 @@
                 var commitIdShort = build.CommitId.SafeSubString(0, 7, "...");
                 var commitMessage = build.CommitMessage;
                 <h3>@application.Name <small rel="popover" title="@Html.AttributeEncode(commitIdShort)"  data-content="@Html.AttributeEncode(commitMessage)" data-original-title="@Html.AttributeEncode(commitIdShort)"><i class="icon-comment"></i> @commitIdShort</small></h3>
-                <small>@build.TimeRemaining(averageBuildTime, DateTime.UtcNow).ToString("c") remaining</small>
+                <small>@build.TimeRemaining(averageBuildTime, DateTime.UtcNow).ToString(@"hh\:mm\:ss") remaining</small>
                 <div class="progress progress-striped active">
                     <div class="bar" style="width: @percentComplete%;"></div>
                 </div>
