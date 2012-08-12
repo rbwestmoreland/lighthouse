@@ -21,6 +21,12 @@ namespace Lighthouse.Web
             );
 
             routes.MapRoute(
+                name: "Dashboard - Content",
+                url: "dashboard/content",
+                defaults: new { controller = "Dashboard", action = "Content" }
+            );
+
+            routes.MapRoute(
                 name: "Home",
                 url: "",
                 defaults: new { controller = "Home", action = "Index" }

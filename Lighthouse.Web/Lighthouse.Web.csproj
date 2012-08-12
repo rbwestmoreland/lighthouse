@@ -168,6 +168,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\lighthouse-dashboard.js" />
     <Content Include="Scripts\lighthouse.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -198,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Default.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Dashboard\Content.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

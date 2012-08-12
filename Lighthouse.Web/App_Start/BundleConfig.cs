@@ -19,6 +19,10 @@ namespace Lighthouse.Web
             javascriptBundle.Include("~/scripts/lighthouse.js");
             bundles.Add(javascriptBundle);
 
+            var javascriptDashboardBundle = new Bundle("~/scripts/javascript/dashboard", new JsMinify());
+            javascriptDashboardBundle.Include("~/scripts/lighthouse-dashboard.js");
+            bundles.Add(javascriptDashboardBundle);
+
             BundleTable.EnableOptimizations = true;
         }
     }

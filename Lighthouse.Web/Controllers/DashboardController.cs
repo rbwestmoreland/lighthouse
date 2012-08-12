@@ -12,6 +12,11 @@ namespace Lighthouse.Web.Controllers
     {
         public ActionResult Default()
         {
+            return View();
+        }
+
+        public ActionResult Content()
+        {
             var accessToken = GetUserAppHarborAccessToken();
 
             var model = new Dashboard();
