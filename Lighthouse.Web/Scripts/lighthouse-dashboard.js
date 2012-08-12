@@ -10,7 +10,9 @@ $(document).ready(function () {
     $('#dashboard').show();
     reloadInterval = setInterval(function () {
         if (secondsBeforeReload < 1) {
-            $('#dashboard').load(contentUrl);
+            $('#dashboard').load(contentUrl, function () {
+                $('*[rel=popover]').popover();
+            });
             secondsBeforeReload = 10;
         } else {
             secondsBeforeReload = secondsBeforeReload - 1;
